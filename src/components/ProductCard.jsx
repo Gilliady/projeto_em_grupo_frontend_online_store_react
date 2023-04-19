@@ -6,22 +6,22 @@ export default class ProductCard extends Component {
   render() {
     const { product, isOnPreview } = this.props;
     return (
-      <Link data-testid="product-detail-link" to={ `/product/${product.id}` }>
-        <li data-testid="product">
-          <h3 data-testid="product-detail-name">{product.title}</h3>
-          <img
-            data-testid="product-detail-image"
-            src={ product.thumbnail }
-            alt={ product.title }
-          />
-          <h3 data-testid="product-detail-price">
-            R$
-            { product.price.toFixed(2) }
-          </h3>
-          <button data-testid="shopping-cart-button">Adicionar ao carrinho</button>
-          {isOnPreview && (
-            <div style={ { maxHeight: '500px', overflowY: 'overlay' } }>
-              { product
+      <div>
+        <Link data-testid="product-detail-link" to={ `/product/${product.id}` }>
+          <li data-testid="product">
+            <h3 data-testid="product-detail-name">{product.title}</h3>
+            <img
+              data-testid="product-detail-image"
+              src={ product.thumbnail }
+              alt={ product.title }
+            />
+            <h3 data-testid="product-detail-price">
+              R$
+              { product.price.toFixed(2) }
+            </h3>
+            {isOnPreview && (
+              <div style={ { maxHeight: '500px', overflowY: 'overlay' } }>
+                { product
               && product.attributes.map(({ name,
                 value_name: valueName, id }) => (
                 (
@@ -29,9 +29,11 @@ export default class ProductCard extends Component {
                     <strong>{`${name}: `}</strong>
                     {valueName}
                   </p>)))}
-            </div>)}
-        </li>
-      </Link>
+              </div>)}
+          </li>
+        </Link>
+        <button data-testid="shopping-cart-button">Adicionar ao carrinho</button>
+      </div>
     );
   }
 }
