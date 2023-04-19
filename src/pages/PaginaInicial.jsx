@@ -4,6 +4,7 @@ import {
   getCategories,
   getProductsFromCategoryAndQuery,
 } from '../services/api';
+import ProductCard from '../components/ProductCard';
 
 export default class PaginaInicial extends Component {
   state = {
@@ -84,11 +85,7 @@ export default class PaginaInicial extends Component {
           <ul>
             {productList.length > 0 || queryCategory.length > 0
               ? productList.map((product) => (
-                <li key={ product.id } data-testid="product">
-                  <h3>{product.title}</h3>
-                  <img src={ product.thumbnail } alt={ product.title } />
-                  <button>Adicionar ao carrinho</button>
-                </li>
+                <ProductCard key={ product.id } product={ product } />
               )) : <h2>Nenhum produto foi encontrado</h2>}
             {}
           </ul>
