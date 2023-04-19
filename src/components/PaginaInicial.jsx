@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 export default class PaginaInicial extends Component {
@@ -15,6 +16,7 @@ export default class PaginaInicial extends Component {
 
   render() {
     const { termoBusca } = this.state;
+    const { history } = this.props;
     return (
       <div>
         <label htmlFor="">
@@ -33,7 +35,20 @@ export default class PaginaInicial extends Component {
             </p>)
             : <ul />
         }
+        <button
+          data-testid="shopping-cart-button"
+          type="button"
+          onClick={ () => history.push('/cart') }
+        >
+          Carrinho
+        </button>
       </div>
     );
   }
 }
+
+PaginaInicial.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
