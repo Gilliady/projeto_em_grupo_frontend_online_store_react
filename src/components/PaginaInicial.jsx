@@ -34,11 +34,17 @@ export default class PaginaInicial extends Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
+    }, () => {
+      if (name === 'queryCategory') this.fetchQueryItens();
     });
   };
 
   render() {
-    const { termoBusca, categoriesList, productList, searched } = this.state;
+    const { termoBusca,
+      queryCategory,
+      categoriesList,
+      productList,
+      searched } = this.state;
     const { history } = this.props;
 
     const listaCategorias = categoriesList.map(({ id, name }) => (
@@ -47,7 +53,7 @@ export default class PaginaInicial extends Component {
           <input
             type="radio"
             name="queryCategory"
-            value=""
+            value={ id }
             onChange={ this.handleChange }
           />
           {name}
@@ -76,7 +82,7 @@ export default class PaginaInicial extends Component {
           </p>
         ) : (
           <ul>
-            {productList.length > 0
+            {productList.length > 0 || queryCategory.length > 0
               ? productList.map((product) => (
                 <li key={ product.id } data-testid="product">
                   <h3>{product.title}</h3>
