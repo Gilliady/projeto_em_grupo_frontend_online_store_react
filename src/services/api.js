@@ -1,5 +1,6 @@
 export async function getCategories() {
   // Implemente aqui
+  console.log('Hello the World');
 }
 
 export async function getProductsFromCategoryAndQuery(/* categoryId, query */) {
