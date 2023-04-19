@@ -1,9 +1,20 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { getCategories } from '../services/api';
 
 export default class PaginaInicial extends Component {
   state = {
     termoBusca: '',
+    categoriesList: [],
+  };
+
+  componentDidMount() {
+    this.getCategoriesBtn();
+  }
+
+  getCategoriesBtn = async () => {
+    const categoriesList = await getCategories();
+    this.setState({ categoriesList });
   };
 
   handleChange = (event) => {
@@ -15,8 +26,18 @@ export default class PaginaInicial extends Component {
   };
 
   render() {
-    const { termoBusca } = this.state;
+    const { termoBusca, categoriesList } = this.state;
     const { history } = this.props;
+
+    const listaCategorias = categoriesList.map(({ id, name }) => (
+      <li key={ id }>
+        <label data-testid="category">
+          <input type="radio" name="" value="" />
+          {name}
+        </label>
+      </li>
+    ));
+
     return (
       <div>
         <label htmlFor="">
@@ -28,6 +49,7 @@ export default class PaginaInicial extends Component {
             onChange={ this.handleChange }
           />
         </label>
+
         {
           termoBusca === '' ? (
             <p data-testid="home-initial-message">
@@ -42,6 +64,10 @@ export default class PaginaInicial extends Component {
         >
           Carrinho
         </button>
+        <ul>
+          { listaCategorias }
+        </ul>
+
       </div>
     );
   }
