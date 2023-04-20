@@ -8,6 +8,7 @@ export default class Checkout extends Component {
     email: '',
     phone: '',
     cep: '',
+    cpf: '',
     address: '',
     payment: '',
     valid: false,
@@ -28,16 +29,17 @@ export default class Checkout extends Component {
   };
 
   validate = () => {
-    const { payment, fullname, email, phone, cep, address } = this.state;
+    const { payment, fullname, email, phone, cep, address, cpf } = this.state;
     const validate1 = payment.length > 0;
     const validate2 = fullname.length > 0;
     const validate3 = email.length > 0;
     const validate4 = phone.length > 0;
     const validate5 = cep.length > 0;
     const validate6 = address.length > 0;
+    const validate7 = cpf.length > 0;
     this.setState({
       valid: (validate1
-        && validate2 && validate3 && validate4 && validate5 && validate6) });
+        && validate2 && validate3 && validate4 && validate5 && validate6 && validate7) });
   };
 
   checkout = (evt) => {
@@ -52,9 +54,18 @@ export default class Checkout extends Component {
   };
 
   render() {
-    const { itens, fullname, email, phone, cep, address, clicked, valid } = this.state;
+    const {
+      itens, fullname, email, phone, cep, address, clicked, valid, cpf } = this.state;
+    const { history } = this.props;
     return (
       <div>
+        <button
+          data-testid="shopping-cart-button"
+          type="button"
+          onClick={ () => history.push('/cart') }
+        >
+          carrinho
+        </button>
         <div>
           <h3>Verifique se todos os itens da sua compra estão corretos:</h3>
           {itens.length === 0
@@ -93,6 +104,16 @@ export default class Checkout extends Component {
               type="text"
               data-testid="checkout-email"
               value={ email }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label>
+            CPF:
+            <input
+              name="cpf"
+              type="text"
+              data-testid="checkout-cpf"
+              value={ cpf }
               onChange={ this.handleChange }
             />
           </label>
