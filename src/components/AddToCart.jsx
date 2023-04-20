@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class AddToCart extends Component {
   addItemToCart = () => {
+    const { addCount } = this.props;
     const { product: { id,
       title,
       price,
@@ -16,6 +17,7 @@ export default class AddToCart extends Component {
         return product;
       });
       localStorage.setItem('cart', JSON.stringify(newStorage));
+      addCount();
       return;
     }
     localStorage
@@ -25,6 +27,7 @@ export default class AddToCart extends Component {
         thumbnail,
         quantity: 1,
       }]));
+    addCount();
   };
 
   render() {
@@ -43,6 +46,7 @@ export default class AddToCart extends Component {
 }
 
 AddToCart.propTypes = {
+  addCount: PropTypes.func.isRequired,
   product: PropTypes.shape({
     id: PropTypes.string,
     price: PropTypes.string,

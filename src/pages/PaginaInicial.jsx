@@ -5,6 +5,7 @@ import {
   getProductsFromCategoryAndQuery,
 } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import GoToCart from '../components/GoToCart';
 
 export default class PaginaInicial extends Component {
   state = {
@@ -13,11 +14,22 @@ export default class PaginaInicial extends Component {
     categoriesList: [],
     productList: [],
     searched: false,
+    count: 0,
   };
 
   componentDidMount() {
     this.getCategoriesBtn();
+    const previousStorage = JSON.parse(localStorage.getItem('cart'));
+    if (!previousStorage) localStorage.setItem('cart', JSON.stringify([]));
+    this.addCount();
   }
+
+  addCount = () => {
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    console.log(cart);
+    this.setState({ count: cart
+      .reduce((acc, { quantity }) => acc + Number(quantity), 0) });
+  };
 
   getCategoriesBtn = async () => {
     const categoriesList = await getCategories();
@@ -45,7 +57,9 @@ export default class PaginaInicial extends Component {
       queryCategory,
       categoriesList,
       productList,
-      searched } = this.state;
+      searched,
+      count,
+    } = this.state;
     const { history } = this.props;
 
     const listaCategorias = categoriesList.map(({ id, name }) => (
@@ -85,18 +99,16 @@ export default class PaginaInicial extends Component {
           <ul>
             {productList.length > 0 || queryCategory.length > 0
               ? productList.map((product) => (
-                <ProductCard key={ product.id } product={ product } />
+                <ProductCard
+                  key={ product.id }
+                  product={ product }
+                  addCount={ this.addCount }
+                />
               )) : <h2>Nenhum produto foi encontrado</h2>}
             {}
           </ul>
         )}
-        <button
-          data-testid="shopping-cart-button"
-          type="button"
-          onClick={ () => history.push('/cart') }
-        >
-          Carrinho
-        </button>
+        <GoToCart history={ history } count={ count } />
         <ul>{listaCategorias}</ul>
       </div>
     );

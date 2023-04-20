@@ -5,7 +5,7 @@ import AddToCart from './AddToCart';
 
 export default class ProductCard extends Component {
   render() {
-    const { product, isOnPreview } = this.props;
+    const { product, isOnPreview, addCount } = this.props;
     return (
       <div>
         <Link data-testid="product-detail-link" to={ `/product/${product.id}` }>
@@ -33,13 +33,18 @@ export default class ProductCard extends Component {
               </div>)}
           </li>
         </Link>
-        <AddToCart product={ product } isOnPreview={ isOnPreview } />
+        <AddToCart
+          product={ product }
+          isOnPreview={ isOnPreview }
+          addCount={ addCount }
+        />
       </div>
     );
   }
 }
 
 ProductCard.propTypes = {
+  addCount: PropTypes.func.isRequired,
   product: PropTypes.shape({
     id: PropTypes.string,
     thumbnail: PropTypes.string,

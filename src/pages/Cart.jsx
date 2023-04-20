@@ -83,13 +83,6 @@ export default class Cart extends Component {
                 </li>))}
             </ol>)}
         <button
-          data-testid="shopping-cart-button"
-          type="button"
-          onClick={ () => history.push('/cart') }
-        >
-          carrinho
-        </button>
-        <button
           data-testid="checkout-products"
           type="button"
           onClick={ () => history.push('/checkout') }

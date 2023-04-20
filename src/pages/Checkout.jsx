@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import GoToCart from '../components/GoToCart';
 
 export default class Checkout extends Component {
   state = {
@@ -59,13 +60,7 @@ export default class Checkout extends Component {
     const { history } = this.props;
     return (
       <div>
-        <button
-          data-testid="shopping-cart-button"
-          type="button"
-          onClick={ () => history.push('/cart') }
-        >
-          carrinho
-        </button>
+        <GoToCart history={ history } />
         <div>
           <h3>Verifique se todos os itens da sua compra estão corretos:</h3>
           {itens.length === 0
