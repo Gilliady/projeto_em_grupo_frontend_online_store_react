@@ -7,6 +7,8 @@ export default class Rating extends Component {
     message: '',
     rating: '0',
     evaluations: [],
+    clicked: false,
+    isValid: false,
   };
 
   componentDidMount() {
@@ -27,6 +29,13 @@ export default class Rating extends Component {
 
   submitRating = () => {
     const { email, message, rating } = this.state;
+    this.setState({ clicked: true });
+
+    if (email === '' || rating === '0') return;
+    this.setState({
+      isValid: true,
+    });
+
     const { id } = this.props;
     const previousEvaluations = JSON.parse(localStorage.getItem(id));
     if (previousEvaluations) {
@@ -46,15 +55,18 @@ export default class Rating extends Component {
           .setItem(id, JSON.stringify(updatedEvaluations));
       });
     }
+
     this.setState({
       email: '',
       message: '',
       rating: '0',
+      isValid: false,
+      clicked: false,
     });
   };
 
   render() {
-    const { email, message, rating, evaluations } = this.state;
+    const { email, message, rating, evaluations, clicked, isValid } = this.state;
     return (
       <div>
         <label>
@@ -152,6 +164,7 @@ export default class Rating extends Component {
                 <p data-testid="review-card-evaluation">{ratingMessage}</p>
               </div>)
           ))}
+        { (clicked && !isValid) && <span data-testid="error-msg">Campos inválidos</span> }
       </div>
     );
   }
