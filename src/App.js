@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom/cjs/react-router-
 import PaginaInicial from './pages/PaginaInicial';
 import Cart from './pages/Cart';
 import Details from './pages/Details';
+import Checkout from './pages/Checkout';
 import './App.css';
 
 class App extends React.Component {
@@ -19,6 +20,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={ PaginaInicial } />
             <Route exact path="/cart" component={ Cart } />
+            <Route exact path="/checkout" component={ Checkout } />
             <Route exact path="/product/:id" component={ Details } />
           </Switch>
         </BrowserRouter>
