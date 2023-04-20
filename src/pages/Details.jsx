@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ProductCard from '../components/ProductCard';
 import { getProductById } from '../services/api';
+import Rating from '../components/Rating';
 
 export default class Details extends Component {
   state = {
@@ -25,6 +26,7 @@ export default class Details extends Component {
   render() {
     const { product } = this.state;
     const { history } = this.props;
+    const { match: { params: { id } } } = this.props;
     return (
       <>
         <button
@@ -38,6 +40,7 @@ export default class Details extends Component {
           product.attributes
           && <ProductCard product={ product } isOnPreview />
         }
+        <Rating id={ id } />
       </>
     );
   }
