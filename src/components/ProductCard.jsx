@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import React, { Component } from 'react';
+import AddToCart from './AddToCart';
 
 export default class ProductCard extends Component {
   render() {
@@ -32,7 +33,7 @@ export default class ProductCard extends Component {
               </div>)}
           </li>
         </Link>
-        <button data-testid="shopping-cart-button">Adicionar ao carrinho</button>
+        <AddToCart product={ product } isOnPreview={ isOnPreview } />
       </div>
     );
   }
