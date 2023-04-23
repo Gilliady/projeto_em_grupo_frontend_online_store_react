@@ -31,6 +31,8 @@ export default class ProductCard extends Component {
                     {valueName}
                   </p>)))}
               </div>)}
+            {product.shipping.free_shipping
+              && <p data-testid="free-shipping">Frete Grátis</p>}
           </li>
         </Link>
         <AddToCart
