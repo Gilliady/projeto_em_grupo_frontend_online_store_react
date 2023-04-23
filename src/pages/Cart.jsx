@@ -13,8 +13,10 @@ export default class Cart extends Component {
 
   handleQuantity = ({ target: { name } }, action) => {
     const { itens } = this.state;
+
     if (action === 'add') {
       const item = itens.find((product) => product.id === name);
+      if (item.quantity === item.availableQuantity) return;
       item.quantity += 1;
       this.setState({ itens }, () => {
         localStorage.setItem('cart', JSON.stringify(itens));

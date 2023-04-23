@@ -26,7 +26,6 @@ export default class PaginaInicial extends Component {
 
   addCount = () => {
     const cart = JSON.parse(localStorage.getItem('cart'));
-    console.log(cart);
     this.setState({ count: cart
       .reduce((acc, { quantity }) => acc + Number(quantity), 0) });
   };
