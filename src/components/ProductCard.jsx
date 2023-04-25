@@ -5,7 +5,7 @@ import AddToCart from './AddToCart';
 
 export default class ProductCard extends Component {
   render() {
-    const { product, isOnPreview } = this.props;
+    const { product, isOnPreview, addCount } = this.props;
     return (
       <div>
         <Link data-testid="product-detail-link" to={ `/product/${product.id}` }>
@@ -31,15 +31,22 @@ export default class ProductCard extends Component {
                     {valueName}
                   </p>)))}
               </div>)}
+            {product.shipping.free_shipping
+              && <p data-testid="free-shipping">Frete Grátis</p>}
           </li>
         </Link>
-        <AddToCart product={ product } isOnPreview={ isOnPreview } />
+        <AddToCart
+          product={ product }
+          isOnPreview={ isOnPreview }
+          addCount={ addCount }
+        />
       </div>
     );
   }
 }
 
 ProductCard.propTypes = {
+  addCount: PropTypes.func.isRequired,
   product: PropTypes.shape({
     id: PropTypes.string,
     thumbnail: PropTypes.string,

@@ -3,15 +3,24 @@ import React, { Component } from 'react';
 import ProductCard from '../components/ProductCard';
 import { getProductById } from '../services/api';
 import Rating from '../components/Rating';
+import GoToCart from '../components/GoToCart';
 
 export default class Details extends Component {
   state = {
     product: {},
+    count: 0,
   };
 
   componentDidMount() {
     this.fetchProduct();
+    this.addCount();
   }
+
+  addCount = () => {
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    this.setState({ count: cart
+      .reduce((acc, { quantity }) => acc + Number(quantity), 0) });
+  };
 
   fetchProduct = async () => {
     const {
@@ -24,21 +33,15 @@ export default class Details extends Component {
   };
 
   render() {
-    const { product } = this.state;
-    const { history } = this.props;
+    const { product, count } = this.state;
     const { match: { params: { id } } } = this.props;
+    const { history } = this.props;
     return (
       <>
-        <button
-          data-testid="shopping-cart-button"
-          type="button"
-          onClick={ () => history.push('/cart') }
-        >
-          Carrinho
-        </button>
+        <GoToCart history={ history } count={ count } />
         {
           product.attributes
-          && <ProductCard product={ product } isOnPreview />
+          && <ProductCard addCount={ this.addCount } product={ product } isOnPreview />
         }
         <Rating id={ id } />
       </>
