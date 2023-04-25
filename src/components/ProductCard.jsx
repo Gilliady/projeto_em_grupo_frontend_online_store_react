@@ -1,28 +1,35 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import React, { Component } from 'react';
+/* import { Link } from 'react-router-dom'; */
 import AddToCart from './AddToCart';
 
 export default class ProductCard extends Component {
   render() {
-    const { product, isOnPreview, addCount } = this.props;
+    const { product, isOnPreview, addCount, history } = this.props;
     return (
       <div>
-        <Link data-testid="product-detail-link" to={ `/product/${product.id}` }>
-          <li data-testid="product">
-            <h3 data-testid="product-detail-name">{product.title}</h3>
-            <img
-              data-testid="product-detail-image"
-              src={ product.thumbnail }
-              alt={ product.title }
-            />
-            <h3 data-testid="product-detail-price">
-              R$
-              { product.price.toFixed(2) }
-            </h3>
-            {isOnPreview && (
-              <div style={ { maxHeight: '500px', overflowY: 'overlay' } }>
-                { product
+        {/* <Link
+          data-testid="product-detail-link"
+          to={ `/product/${product.id}` }
+          onClick={ (e) => isOnPreview && e.preventDefault() }
+          style={ {
+            cursor: isOnPreview && 'default',
+          } }
+        > */}
+        <li data-testid="product">
+          <h3 data-testid="product-detail-name">{product.title}</h3>
+          <img
+            data-testid="product-detail-image"
+            src={ product.thumbnail }
+            alt={ product.title }
+          />
+          <h3 data-testid="product-detail-price">
+            R$
+            { product.price.toFixed(2) }
+          </h3>
+          {isOnPreview && (
+            <div style={ { maxHeight: '500px', overflowY: 'overlay' } }>
+              { product
               && product.attributes.map(({ name,
                 value_name: valueName, id }) => (
                 (
@@ -30,11 +37,19 @@ export default class ProductCard extends Component {
                     <strong>{`${name}: `}</strong>
                     {valueName}
                   </p>)))}
-              </div>)}
-            {product.shipping.free_shipping
+            </div>)}
+          {product.shipping.free_shipping
               && <p data-testid="free-shipping">Frete Grátis</p>}
-          </li>
-        </Link>
+        </li>
+        {/* </Link> */}
+        { !isOnPreview && (
+          <button
+            data-testid="product-detail-link"
+            type="button"
+            onClick={ () => history.push(`/product/${product.id}`) }
+          >
+            Ver detalhes
+          </button>)}
         <AddToCart
           product={ product }
           isOnPreview={ isOnPreview }

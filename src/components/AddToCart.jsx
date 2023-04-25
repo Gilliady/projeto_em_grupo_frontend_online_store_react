@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 export default class AddToCart extends Component {
   addItemToCart = () => {
-    const { addCount } = this.props;
     const { product: { id,
       title,
       price,
@@ -14,14 +13,8 @@ export default class AddToCart extends Component {
     const getItem = previousStorage.find(({ id: storageId }) => id === storageId);
     if (getItem && getItem.quantity === availableQuantity) return;
     if (getItem) {
-      const newStorage = previousStorage.map((product) => {
-        if (id === product.id && product.quantity < availableQuantity) {
-          product.quantity += 1;
-        }
-        return product;
-      });
-      localStorage.setItem('cart', JSON.stringify(newStorage));
-      addCount();
+      getItem.quantity += 1;
+      localStorage.setItem('cart', JSON.stringify(previousStorage));
       return;
     }
     localStorage
@@ -32,17 +25,16 @@ export default class AddToCart extends Component {
         quantity: 1,
         availableQuantity,
       }]));
-    addCount();
   };
 
   render() {
-    const { isOnPreview } = this.props;
+    const { isOnPreview, addCount } = this.props;
     return (
       <button
         data-testid={ !isOnPreview
           ? 'product-add-to-cart'
           : 'product-detail-add-to-cart' }
-        onClick={ this.addItemToCart }
+        onClick={ () => { this.addItemToCart(); addCount(); } }
       >
         Adicionar ao carrinho
       </button>
