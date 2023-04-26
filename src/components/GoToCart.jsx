@@ -5,15 +5,40 @@ export default class GoToCart extends Component {
   render() {
     const { history, count } = this.props;
     return (
-      <button
+      <label
         data-testid="shopping-cart-button"
-        type="button"
-        onClick={ () => history.push('/cart') }
+        htmlFor="cart"
+        style={ { position: 'relative' } }
       >
-        carrinho
-        {' '}
-        <span data-testid="shopping-cart-size">{count}</span>
-      </button>
+        <button
+          id="cart"
+          type="button"
+          onClick={ () => history.push('/cart') }
+          style={ { display: 'none' } }
+        >
+          |
+        </button>
+        <i
+          className="fa-solid fa-cart-shopping"
+          style={ {
+            fontSize: '3em',
+            color: '#1e2f50',
+          } }
+        />
+        <span
+          data-testid="shopping-cart-size"
+          style={ {
+            backgroundColor: 'yellow',
+            right: '0px',
+            position: 'absolute',
+            fontSize: '0.75em',
+            padding: '5px',
+            borderRadius: '100%' } }
+        >
+          {count}
+
+        </span>
+      </label>
     );
   }
 }

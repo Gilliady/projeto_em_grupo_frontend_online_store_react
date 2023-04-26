@@ -5,7 +5,7 @@ export default class Rating extends Component {
   state = {
     email: '',
     message: '',
-    rating: '0',
+    rating: 0,
     evaluations: [],
     clicked: false,
     isValid: false,
@@ -31,7 +31,7 @@ export default class Rating extends Component {
     const { email, message, rating } = this.state;
     this.setState({ clicked: true });
 
-    if (email === '' || rating === '0') return;
+    if (email === '' || rating === 0) return;
     this.setState({
       isValid: true,
     });
@@ -59,14 +59,49 @@ export default class Rating extends Component {
     this.setState({
       email: '',
       message: '',
-      rating: '0',
+      rating: 0,
       isValid: false,
       clicked: false,
     });
   };
 
+  renderCheckBoxRating = () => {
+    const { rating } = this.state;
+    const checkboxes = [];
+    for (let index = 1; index <= Number('5'); index += 1) {
+      checkboxes.push(
+        <label key={ `rating_${index}` } data-testid={ `${index}-rating` }>
+          <input
+            checked={ rating >= index }
+            onChange={ this.handleChange }
+            value={ index }
+            name="rating"
+            type="checkbox"
+            style={ { display: 'none' } }
+          />
+          {rating >= index
+            ? <i className="fa-solid fa-star" style={ { color: '#ecd332' } } />
+            : <i className="fa-regular fa-star" />}
+        </label>,
+      );
+    }
+    return checkboxes;
+  };
+
+  renderRating = (rating, key) => {
+    const stars = [];
+    for (let index = 0; index < rating; index += 1) {
+      stars.push(<i
+        key={ `${key}_rating_${index}` }
+        className="fa-solid fa-star"
+        style={ { color: '#ecd332' } }
+      />);
+    }
+    return stars;
+  };
+
   render() {
-    const { email, message, rating, evaluations, clicked, isValid } = this.state;
+    const { email, message, evaluations, clicked, isValid } = this.state;
     return (
       <div>
         <label>
@@ -79,61 +114,7 @@ export default class Rating extends Component {
             data-testid="product-detail-email"
           />
         </label>
-
-        <label>
-          <input
-            checked={ Number(rating) >= 1 }
-            onChange={ this.handleChange }
-            value="1"
-            data-testid="1-rating"
-            name="rating"
-            type="checkbox"
-          />
-        </label>
-
-        <label>
-          <input
-            checked={ Number(rating) >= 2 }
-            onChange={ this.handleChange }
-            value="2"
-            data-testid="2-rating"
-            name="rating"
-            type="checkbox"
-          />
-        </label>
-
-        <label>
-          <input
-            checked={ Number(rating) >= Number('3') }
-            onChange={ this.handleChange }
-            value="3"
-            data-testid="3-rating"
-            name="rating"
-            type="checkbox"
-          />
-        </label>
-
-        <label>
-          <input
-            checked={ Number(rating) >= Number('4') }
-            onChange={ this.handleChange }
-            value="4"
-            data-testid="4-rating"
-            name="rating"
-            type="checkbox"
-          />
-        </label>
-
-        <label>
-          <input
-            checked={ Number(rating) >= Number('5') }
-            onChange={ this.handleChange }
-            value="5"
-            data-testid="5-rating"
-            name="rating"
-            type="checkbox"
-          />
-        </label>
+        {this.renderCheckBoxRating()}
 
         <label>
           <textarea
@@ -160,7 +141,10 @@ export default class Rating extends Component {
             (
               <div key={ `${email}${index}` }>
                 <p data-testid="review-card-email">{ratingEmail}</p>
-                <p data-testid="review-card-rating">{ratingRating}</p>
+                <p data-testid="review-card-rating">
+                  {this
+                    .renderRating(ratingRating, `${email}${index}`)}
+                </p>
                 <p data-testid="review-card-evaluation">{ratingMessage}</p>
               </div>)
           ))}

@@ -90,6 +90,8 @@ export default class PaginaInicial extends Component {
         <button onClick={ this.fetchQueryItens } data-testid="query-button">
           Pesquisar
         </button>
+        <GoToCart history={ history } count={ count } />
+        <ul>{listaCategorias}</ul>
         {!searched ? (
           <p data-testid="home-initial-message">
             Digite algum termo de pesquisa ou escolha uma categoria.
@@ -102,13 +104,12 @@ export default class PaginaInicial extends Component {
                   key={ product.id }
                   product={ product }
                   addCount={ this.addCount }
+                  history={ history }
                 />
               )) : <h2>Nenhum produto foi encontrado</h2>}
             {}
           </ul>
         )}
-        <GoToCart history={ history } count={ count } />
-        <ul>{listaCategorias}</ul>
       </div>
     );
   }

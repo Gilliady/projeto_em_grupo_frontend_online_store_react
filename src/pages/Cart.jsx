@@ -80,7 +80,6 @@ export default class Cart extends Component {
                     } }
                   >
                     remove
-
                   </button>
                 </li>))}
             </ol>)}

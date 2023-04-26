@@ -41,7 +41,12 @@ export default class Details extends Component {
         <GoToCart history={ history } count={ count } />
         {
           product.attributes
-          && <ProductCard addCount={ this.addCount } product={ product } isOnPreview />
+          && <ProductCard
+            history={ history }
+            addCount={ this.addCount }
+            product={ product }
+            isOnPreview
+          />
         }
         <Rating id={ id } />
       </>
